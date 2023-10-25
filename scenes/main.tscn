@@ -1,18 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbqhr5kpitogu"]
+[gd_scene load_steps=6 format=3 uid="uid://dbqhr5kpitogu"]
 
-[ext_resource type="PackedScene" uid="uid://byyrr76rwkiq2" path="res://scenes/Player.tscn" id="1_vidbt"]
+[ext_resource type="PackedScene" uid="uid://byyrr76rwkiq2" path="res://scenes/player.tscn" id="1_vidbt"]
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_xc0u1"]
-[ext_resource type="PackedScene" uid="uid://bgqmue56frk2q" path="res://scenes/Mob.tscn" id="2_oynth"]
+[ext_resource type="PackedScene" uid="uid://bgqmue56frk2q" path="res://scenes/mob.tscn" id="2_npydk"]
+[ext_resource type="PackedScene" uid="uid://uvce2plqnxmn" path="res://scenes/hud.tscn" id="4_pu5e2"]
 
 [sub_resource type="Curve2D" id="Curve2D_e5r3j"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 472, 16, 0, 0, 0, 0, 456, 736, 0, 0, 0, 0, 16, 752, 0, 0, 0, 0, 8, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 477, -2, 0, 0, 0, 0, 479, 754, 0, 0, 0, 0, 16, 752, 0, 0, 0, 0, 8, 0)
 }
 point_count = 5
 
 [node name="Main" type="Node"]
 script = ExtResource("1_xc0u1")
-mob_scene = ExtResource("2_oynth")
+mob_scene = ExtResource("2_npydk")
 
 [node name="Player" parent="." instance=ExtResource("1_vidbt")]
 
@@ -33,4 +34,12 @@ curve = SubResource("Curve2D_e5r3j")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 position = Vector2(8, 0)
-rotation = 0.0344691
+rotation = -0.00426437
+
+[node name="HUD" parent="." instance=ExtResource("4_pu5e2")]
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
